@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Group Chat</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>    
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+         $(document). ready(function (){
+            // this triggers the connection event in our server!
+            var name = prompt("Your name:");
+            var socket  = io.connect();
+            // we'll write all the socket stuff after the above line!
+            socket.emit('got_a_new_user',{name: name});
+
+            socket.on("user_connected", function (data){
+                document.getElementById("chat").innerHTML += `<span class="system">You have been connected</span>`
+            });
+
+            socket.on("new_user", function (data){
+                document.getElementById("chat").innerHTML += `<span class="system">New user ${data.user} has connected</span>`
+            });
+
+            socket.on('user_disconnected', function(data){
+                document.getElementById("chat").innerHTML += `<span class="system">${data.user} has disconnected</span>`
+            });
+
+            socket.on('new_message', function(data){
+                document.getElementById("chat").innerHTML += `<span class="msg">${data.user}: ${data.message}</span>`
+            });
+            
+            $('#send').click(function (){
+                var message = document.getElementById('message').value;
+                document.getElementById('message').value = "";
+                socket.emit("message_clicked", {message: message});
+            });
+        })
+    </script>
+</head>
+<body>
+    <div id="chat"></div>
+    <input type="text" name="message" id="message">
+    <button id="send">Send</button>
+</body>
+</html>

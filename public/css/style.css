@@ -1,0 +1,28 @@
+body{
+    margin: 0 auto;
+    padding: 100px;
+    width: 900px;
+    height: 100%;
+    background-color: lightgray;
+}
+
+span{
+    display: block;
+}
+.system{
+    color: red;
+}
+.msg{
+    color: blue;
+}
+#chat{
+    background: white;
+    font-size: 20px;
+    font-weight: bold;
+    height: 500px;
+    overflow-y: scroll;
+}
+#message{
+    margin-top: 10px;
+    width: 90%;
+}
